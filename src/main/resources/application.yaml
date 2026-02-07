@@ -39,10 +39,14 @@ spring:
 #           new_generator_mappings: true
 
 app:
-#  auth:
-#   login: /auth/login
-#   token:
-#     live-time: 14400
+  auth:
+    login: /auth/login
+    token:
+      secret: ${JWT_SECRET}
+      expiration: ${JWT_EXPIRATION_MS:14400000}
+  security:
+    default-username: ${APP_USERNAME:admin}
+    default-password: ${APP_PASSWORD:admin}
 #  policy:
 #   cors: ${CORS_SITES}
   multithreading:
