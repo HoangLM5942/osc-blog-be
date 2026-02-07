@@ -1,0 +1,58 @@
+server:
+  port: 1997
+  servlet:
+    context-path: /api/blog
+
+spring:
+  application:
+    name: ONESTEPCLOSER
+#    servlet:
+#     multipart:
+#       max-file-size: ${MAX_FILE_SIZE}
+#       max-request-size: ${MAX_REQUEST_SIZE}
+#    datasource:
+#     url: jdbc:mysql://${DB_ADDRESS}/blog
+#     username: ${DB_USERNAME}
+#     password: ${DB_PASSWORD}
+#     hikari:
+#       connectionTimeout: 50000
+#       maximumPoolSize: 5
+#       minimum-idle: 2
+#       auto-commit: false
+#    jpa:
+#     show-sql: ${SHOW_QUERY}
+#     properties:
+#       hibernate:
+#         format_sql: true
+#         order_inserts: true
+#         batch_versioned_data: true
+#         generate_statistics: true
+#         dialect: org.hibernate.dialect.MySQLDialect
+#         connection:
+#           release_mode: ON_CLOSE
+#           provider_disables_autocommit: true
+#         jdbc:
+#           lob:
+#             non_contextual_creation: true
+#           batch_size: 100
+#         id:
+#           new_generator_mappings: true
+
+app:
+#  auth:
+#   login: /auth/login
+#   token:
+#     live-time: 14400
+#  policy:
+#   cors: ${CORS_SITES}
+  multithreading:
+   pool-size:
+     read: 5
+     write: 5
+#  proxy:
+#   isUsed: false
+#   ip: 144.49.99.169
+#   port: 8080
+#  upload:
+#   root:
+#     image: ./upload/image
