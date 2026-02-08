@@ -40,14 +40,14 @@ public class Criteria {
     }
 
     public Criteria and(Class<?> clazz, String key) {
-        this.tableName = AppUtils.convertCamelToSnakeStyle(clazz.getSimpleName());
+        this.tableName = AppUtil.convertCamelToSnakeStyle(clazz.getSimpleName());
         this.key = key;
         this.logicalOperator = LogicalOperator.AND;
         return this;
     }
 
     public Criteria or(Class<?> clazz, String key) {
-        this.tableName = AppUtils.convertCamelToSnakeStyle(clazz.getSimpleName());
+        this.tableName = AppUtil.convertCamelToSnakeStyle(clazz.getSimpleName());
         this.key = key;
         this.logicalOperator = LogicalOperator.OR;
         return this;

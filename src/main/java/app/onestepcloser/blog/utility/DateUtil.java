@@ -6,14 +6,26 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public final class DateUtils {
+public final class DateUtil {
 
-    public static String DATE_TIME_FORMAT_F1 = "dd/MM/yyyy";
-    public static String DATE_TIME_FORMAT_F2 = "yyyy-MM-dd";
-    public static String DATE_TIME_FORMAT_F3 = "yyyyMMdd_HHmmss";
-    public static String DATE_TIME_FORMAT_F4 = "MMM dd, yyyy";
+    private DateUtil() {}
 
-    private DateUtils() {}
+    public enum FORMAT {
+        F1("dd/MM/yyyy"),
+        F2("yyyy-MM-dd"),
+        F3("yyyyMMdd_HHmmss"),
+        F4("MMM dd, yyyy");
+
+        private final String format;
+
+        FORMAT(String format) {
+            this.format = format;
+        }
+
+        public String getFormat() {
+            return this.format;
+        }
+    }
 
     public static Date getCurrentDateTime() {
         return new Date();

@@ -1,29 +1,41 @@
 package app.onestepcloser.blog.domain.model.response;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import app.onestepcloser.blog.security.UserDetailsCustom;
+import app.onestepcloser.blog.utility.Constants;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import net.minidev.json.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class LoginResponse {
 
-    private String token;
-    private String type;
-    private Long expiresInMs;
+    private Long id;
+    private String status;
     private String username;
+    private String firstName;
+    private String lastName;
+    private String image;
+    private String token;
+    private long expiresIn;
+    private String type = Constants.TOKEN_PREFIX;
 
-    public static LoginResponse of(String token, String username, long expiresInMs) {
-        return LoginResponse.builder()
-                .token(token)
-                .type("Bearer")
-                .username(username)
-                .expiresInMs(expiresInMs)
-                .build();
+    public LoginResponse(UserDetailsCustom userDetails ) {
+        this.id = userDetails.getId() == null ? 0 : userDetails.getId();
+        this.status = StringUtils.isBlank(userDetails.getStatus()) ? Constants.EMPTY_STRING : userDetails.getStatus();
+        this.username = StringUtils.isBlank(userDetails.getUsername()) ? Constants.EMPTY_STRING : userDetails.getUsername();
+        this.firstName = StringUtils.isBlank(userDetails.getFirstName()) ? Constants.EMPTY_STRING : userDetails.getFirstName();
+        this.lastName = StringUtils.isBlank(userDetails.getLastName()) ? Constants.EMPTY_STRING : userDetails.getLastName();
+        this.image = StringUtils.isBlank(userDetails.getImage()) ? Constants.EMPTY_STRING : userDetails.getImage();
+    }
+
+    public String toJson() {
+        JSONObject userInfo = new JSONObject();
+        userInfo.put("id", this.id);
+        userInfo.put("status", this.status);
+        userInfo.put("username", this.username);
+        userInfo.put("firstName", this.firstName);
+        userInfo.put("lastName", this.lastName);
+        userInfo.put("image", this.image);
+        return userInfo.toJSONString();
     }
 }

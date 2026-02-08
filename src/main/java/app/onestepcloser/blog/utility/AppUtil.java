@@ -1,6 +1,5 @@
 package app.onestepcloser.blog.utility;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
@@ -10,18 +9,16 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public final class AppUtils {
+public final class AppUtil {
     
-    private AppUtils() {}
+    private AppUtil() {}
 
     public static List<Long> convertListStringToLong(String[] array) {
         if (CollectionUtils.isEmpty(Arrays.asList(array))) return null;
@@ -97,37 +94,6 @@ public final class AppUtils {
 
     public static String randomString() {
         return randomString(10);
-    }
-
-    public static String getHeader(HttpServletRequest request) {
-        if (request == null) return null;
-        StringBuilder headers = new StringBuilder();
-        Enumeration<String> elements = request.getHeaderNames();
-        while (elements.hasMoreElements()) {
-            String key = elements.nextElement();
-            headers.append(key).append("=").append(request.getHeader(key)).append(Constants.COMMA);
-        }
-        return headers.toString();
-    }
-
-    public static String getParams(HttpServletRequest request) {
-        if (request == null) return null;
-        Map<String, String[]> parameterMap = request.getParameterMap();
-        if (parameterMap == null || parameterMap.isEmpty()) return "No Params";
-        StringBuilder params = new StringBuilder();
-        for (String key : parameterMap.keySet()) {
-            params.append(key).append("=").append(parameterMap.get(key)[0]).append(Constants.COMMA);
-        }
-        return params.toString();
-    }
-
-    public static String getIPRequest(HttpServletRequest request) {
-        if (request == null) return null;
-        String ipAddress = request.getHeader("X-FORWARDED-FOR");
-        if (ipAddress == null || ipAddress.equals(Constants.EMPTY_STRING)) {
-            ipAddress = request.getRemoteAddr();
-        }
-        return ipAddress;
     }
 
     public static <T> List<T> convertUnknownObject(List<Object[]> objects, Class<T> clazz) {

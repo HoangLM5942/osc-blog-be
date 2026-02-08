@@ -66,9 +66,9 @@ public class QueryBuilder {
 
     public QueryBuilder selectForeignFields(Class<?> entity, String... fields) {
         if (this.foreignFields == null) this.foreignFields = new ArrayList<>();
-        String tableName = AppUtils.convertCamelToSnakeStyle(entity.getSimpleName());
+        String tableName = AppUtil.convertCamelToSnakeStyle(entity.getSimpleName());
         for (String field : fields) {
-            String fieldName = AppUtils.convertCamelToSnakeStyle(field);
+            String fieldName = AppUtil.convertCamelToSnakeStyle(field);
             this.foreignFields.add(tableName.concat(Charactor.DOT.value).concat(fieldName));
         }
         return this;
@@ -98,13 +98,13 @@ public class QueryBuilder {
         }
         String field = aliases.get(this.ALIAS);
         if (StringUtils.isBlank(field)) return this;
-        aliases.put(AppUtils.convertCamelToSnakeStyle(field), alias);
+        aliases.put(AppUtil.convertCamelToSnakeStyle(field), alias);
         return this;
     }
 
     public QueryBuilder from(Class<?> entity) {
         this.table = entity;
-        this.tableName = AppUtils.convertCamelToSnakeStyle(this.table.getSimpleName());
+        this.tableName = AppUtil.convertCamelToSnakeStyle(this.table.getSimpleName());
         return this;
     }
 
@@ -117,8 +117,8 @@ public class QueryBuilder {
         if (CollectionUtils.isEmpty(this.groupBy)) {
             this.groupBy = new LinkedList<>();
         }
-        String tableName = AppUtils.convertCamelToSnakeStyle(clazz.getSimpleName());
-        String fieldName = AppUtils.convertCamelToSnakeStyle(groupBy);
+        String tableName = AppUtil.convertCamelToSnakeStyle(clazz.getSimpleName());
+        String fieldName = AppUtil.convertCamelToSnakeStyle(groupBy);
         this.groupBy.add(Pair.of(tableName, fieldName));
     }
 
@@ -130,8 +130,8 @@ public class QueryBuilder {
         if (CollectionUtils.isEmpty(this.orderBy)) {
             this.orderBy = new LinkedList<>();
         }
-        String tableName = AppUtils.convertCamelToSnakeStyle(clazz.getSimpleName());
-        StringBuilder fieldName = new StringBuilder(AppUtils.convertCamelToSnakeStyle(orderBy));
+        String tableName = AppUtil.convertCamelToSnakeStyle(clazz.getSimpleName());
+        StringBuilder fieldName = new StringBuilder(AppUtil.convertCamelToSnakeStyle(orderBy));
         if (sort.equals("DESC")) {
             fieldName.append(Charactor.BLANK.value).append(sort);
         }
@@ -246,7 +246,7 @@ public class QueryBuilder {
                 if (this.fields.contains(fieldName)) {
                     concatSelectQuery(query, this, fieldName);
                 } else {
-                    fieldName = AppUtils.convertCamelToSnakeStyle(fieldName);
+                    fieldName = AppUtil.convertCamelToSnakeStyle(fieldName);
                     query.append("null as ").append(fieldName).append(Charactor.COMMA.value);
                 }
             }
@@ -264,7 +264,7 @@ public class QueryBuilder {
 
     private void concatSelectQuery(StringBuilder sql, QueryBuilder query, String field) {
         if (StringUtils.isBlank(field)) return;
-        String fieldName = AppUtils.convertCamelToSnakeStyle(field);
+        String fieldName = AppUtil.convertCamelToSnakeStyle(field);
         if (!field.contains("concat(")) sql.append(query.tableName).append(Charactor.DOT.value);
         sql.append(fieldName);
         if (query.aliases != null && StringUtils.isNotBlank(query.aliases.get(fieldName))) {
@@ -303,9 +303,9 @@ public class QueryBuilder {
             }
             sql.append(query.getSecond().tableName).append(" on ")
                     .append(query.getSecond().tableName).append(Charactor.DOT.value)
-                    .append(AppUtils.convertCamelToSnakeStyle(key.getFirst()))
+                    .append(AppUtil.convertCamelToSnakeStyle(key.getFirst()))
                     .append(" = ").append(queryBuilder.tableName).append(Charactor.DOT.value)
-                    .append(AppUtils.convertCamelToSnakeStyle(key.getSecond()))
+                    .append(AppUtil.convertCamelToSnakeStyle(key.getSecond()))
                     .append(Charactor.BLANK.value);
             join(query.getSecond(), sql);
         });
@@ -370,10 +370,10 @@ public class QueryBuilder {
                             break;
                         }
                     }
-                    field.append(AppUtils.convertCamelToSnakeStyle(alias));
+                    field.append(AppUtil.convertCamelToSnakeStyle(alias));
                 } else {
                     field.append(StringUtils.isNotBlank(subCriteria.tableName) ? subCriteria.tableName : query.tableName)
-                            .append(Charactor.DOT.value).append(AppUtils.convertCamelToSnakeStyle(subCriteria.key));
+                            .append(Charactor.DOT.value).append(AppUtil.convertCamelToSnakeStyle(subCriteria.key));
                 }
                 if (!CollectionUtils.isEmpty(subCriteria.asDates) && subCriteria.asDates.contains(subCriteria.key)) {
                     sql.append(getLogicalOperator(subCriteria.logicalOperator))

@@ -3,7 +3,6 @@ package app.onestepcloser.blog.security;
 import app.onestepcloser.blog.config.SecurityAppProperties;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AppUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
     private final SecurityAppProperties securityAppProperties;
     private final PasswordEncoder passwordEncoder;
@@ -22,10 +21,10 @@ public class AppUserDetailsService implements UserDetailsService {
         if (!securityAppProperties.getDefaultUsername().equals(username)) {
             throw new UsernameNotFoundException("User not found: " + username);
         }
-        return User.builder()
+        return UserDetailsCustom.builder()
                 .username(securityAppProperties.getDefaultUsername())
                 .password(passwordEncoder.encode(securityAppProperties.getDefaultPassword()))
-                .roles("USER")
+//                .roles("USER")
                 .build();
     }
 

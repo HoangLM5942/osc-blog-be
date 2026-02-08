@@ -4,6 +4,7 @@ import app.onestepcloser.blog.config.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import lombok.Getter;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -13,20 +14,21 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private final JwtProperties jwtProperties;
+    @Getter
+    private final long expiration;
     private final SecretKey key;
 
     public JwtUtil(JwtProperties jwtProperties) {
-        this.jwtProperties = jwtProperties;
+        this.expiration = jwtProperties.getExpiration();
         byte[] keyBytes = jwtProperties.getSecret().getBytes(StandardCharsets.UTF_8);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(String username) {
+    public String generateToken(String userInfo) {
         long now = System.currentTimeMillis();
-        long expiration = now + jwtProperties.getExpiration();
+        long expiration = now + this.expiration;
         return Jwts.builder()
-                .subject(username)
+                .subject(userInfo)
                 .issuedAt(new Date(now))
                 .expiration(new Date(expiration))
                 .signWith(key)

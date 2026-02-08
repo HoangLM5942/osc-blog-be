@@ -4,7 +4,7 @@ public final class Constants {
 
     private Constants() {}
 
-    public static final String TOKEN_PREFIX = "bearer";
+    public static final String TOKEN_PREFIX = "Bearer";
     public static final String EMPTY_STRING = "";
     public static final String BLANK_STRING = " ";
     public static final String DOT = ".";
@@ -20,16 +20,10 @@ public final class Constants {
         DESC
     }
 
-    public static class ROLE_TIER {
-        public static final byte UNDEFINED = -1;
-        public static final byte ADMINISTRATOR = 0;
-        public static final byte MODIFIER = 1;
-    }
-
-    public static class STATUS {
-        public static final byte INACTIVATED = 0;
-        public static final byte ACTIVATED = 1;
-        public static final byte DELETED = 2;
+    public enum STATUS {
+        INACTIVATED,
+        ACTIVATED,
+        DELETED
     }
 
     public static class REGEX_PATTERN {
@@ -37,7 +31,7 @@ public final class Constants {
         public static final String EMAIL = "^[a-z][a-z0-9_.]{5,32}@[a-z0-9]{2,}(.[a-z0-9]{2,4}){1,2}$";
     }
 
-    public static class MODEL_FIELD {
+    public static class ENTITY_FIELD {
         public static final String ID = "id";
         public static final String STATUS = "status";
         public static final String CREATE_TIME = "createdTime";
@@ -60,30 +54,20 @@ public final class Constants {
         public static final String PARA_ID = "paraId";
     }
 
-    public static class CONTENT_TYPE {
-        public static final byte POST = 0;
-        public static final byte QUOTE = 1;
-        public static final byte DRAFT = 2;
-        public static final byte NOTE = 3;
-    }
-
-    public static class PARA {
-        public static final byte ARCHIVES = 0;
-        public static final byte RESOURCES = 1;
-        public static final byte AREAS = 2;
-        public static final byte PROJECTS = 3;
-    }
-
     public enum PARA_TYPE {
-        ARCHIVES(PARA.ARCHIVES),
-        RESOURCES(PARA.RESOURCES),
-        AREAS(PARA.AREAS),
-        PROJECTS(PARA.PROJECTS);
+        ARCHIVES(0),
+        RESOURCES(1),
+        AREAS(2),
+        PROJECTS(3);
 
-        private final byte type;
+        private final int type;
 
-        PARA_TYPE(byte type) {
+        PARA_TYPE(int type) {
             this.type = type;
+        }
+
+        public int getType() {
+            return this.type;
         }
     }
 
